@@ -24,4 +24,16 @@ Ask Adam for an API key we can use on the day, and put this in a `.env` file at 
 
 Install the VSCode Flutter extension [here](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
 
+## 4. Mobile Device Setup
+
+### Android
+
+If you're using a physical device:
+
+- Run through the setup steps [here](https://flutter.dev/docs/get-started/install/windows#set-up-your-android-device) for Windows, and [here](https://flutter.dev/docs/get-started/install/macos#set-up-your-android-device) for iOS.
+
+- If your `flutter devices` call doesn't pick up your device, ensure you've got the correct Android SDK version installed. For example, a Samsung Galaxy S9+ requires Android 10 (API 29). Use the Android Studio SDK to configure & install this, then restart your console and/or reconnect your device.
+
+---
+
 <sup>^ :: whispers :: I did say it was a YOLO workshop.
