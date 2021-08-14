@@ -20,6 +20,8 @@ Run the following run `sudo linux-setup.sh`, and accept any warnings that get th
 
 Ask Adam for an API key we can use on the day, and put this in a `.env` file at the root of the directory
 
----
+## 3. Editor setup
+
+Install the VSCode Flutter extension [here](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)
 
 <sup>^ :: whispers :: I did say it was a YOLO workshop.

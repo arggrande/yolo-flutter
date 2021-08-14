@@ -47,12 +47,7 @@ function Install-Prerequesities {
 
         Set-ExecutionPolicy Bypass -Scope Process -Force; 
         Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-
-        Write-Host 
-        Write-Host 'You need to restart your shell before you continue, otherwise Chocolatey may not be recognised correctly.'
-        Write-Host 'This is Bad™ becuase you wont be able to run the rest of the script!'
-        Write-Host
-        return 1
+        refreshenv
     }
 
 
@@ -60,13 +55,7 @@ function Install-Prerequesities {
 
 }
 
-$preReqs = Install-Prerequesities
-
-if ($preReqs -eq 1) {
-    Write-Host 'Prerequisites failed to install correctly :('
-    Write-Host '--------------------------------'
-    return
-}
+Install-Prerequesities
 
 # Git
 
@@ -96,3 +85,13 @@ if (!(Find-Package -executable 'flutter.bat')) {
     choco install flutter
     Write-Host 'Done!'
 }
+# Chocolately helper function to renew the terminal session and reload things!
+refreshenv 
+
+# Set JAVA_HOME to C:\Program Files\Android\jdk\microsoft_dist_openjdk_1.8.0.25, which is installed with Android Studio
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Program Files\Android\jdk\microsoft_dist_openjdk_1.8.0.25", "Machine")
+
+# Set Android Studio directory specifically, as sometimes flutter wont pick it up correctly. DO NOT have a trailing slash on the end of the path. Bad things happen :(
+flutter config --android-studio-dir "C:\Program Files\Android\Android Studio"
+
+refreshenv
