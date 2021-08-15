@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:developer' as developer;
 
-void main() {
+Future main() async {
+  // Load our core .env file
+  await dotenv.load(fileName: '.env');
+
   runApp(MyApp());
 }
 
@@ -33,12 +39,14 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  MyHomePageState createState() => MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    var x = dotenv.get('API_KEY');
+    developer.log('API_KEY: $x', name: 'yolo.lol');
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
