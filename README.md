@@ -40,6 +40,7 @@ If you're using a physical device:
 
 1. Hello world! - A basic flutter app with some things that need fixing. Run `git checkout da38d09` to go to/back to this commit.
 2. Fix some tests - Lets delve into testing with flutter and make sure our tests are working correctly. Run `git checkout 11e95bd` to go to/back to this commit.
+3. Add our dependencies - We need to add a HTTP client and a dotenv library to make our things work! Run `git checkout 007021b` to go to/back to this commit.
 
 ---
 
