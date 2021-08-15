@@ -36,4 +36,8 @@ If you're using a physical device:
 
 ---
 
+## Workshop Steps!
+
+1. Hello world! - A basic flutter app with some things that need fixing. Run `git checkout da38d090a59c6218dbc80fc790202c3bee41088a` to go to/back to this commit.
+
 <sup>^ :: whispers :: I did say it was a YOLO workshop.
