@@ -43,7 +43,7 @@ class FancyController extends FancyButtonController with ChangeNotifier {
 
   /// Update the progress value and wait for a given duration to simulate awesome downloads
   Future<void> TickTock(double progress, int durationInSeconds) async {
-    await Future<void>.delayed(Duration(seconds: durationInSeconds));
+    //await Future<void>.delayed(Duration(seconds: durationInSeconds));
     _progress = progress;
     notifyListeners();
   }
@@ -136,10 +136,13 @@ class FancyButton extends StatelessWidget {
   }
 
   Widget _buildDownloadingProgress() {
+    var op = _inProgress ? 1.0 : 0.0;
+    print('AnimatedOpacity: ${op == 1.0 ? 'Visible' : 'Invisible'}');
+    print('InProgress for building: ${_inProgress}');
     return Positioned.fill(
         child: AnimatedOpacity(
             duration: transitionDuration,
-            opacity: _inProgress ? 1.0 : 0.0,
+            opacity: op,
             curve: Curves.ease,
             child: Stack(
               alignment: Alignment.center,
@@ -157,11 +160,17 @@ class FancyButton extends StatelessWidget {
     var bgColor = _inProgress
         ? CupertinoColors.lightBackgroundGray
         : Colors.white.withOpacity(0.0);
-    var valColor = AlwaysStoppedAnimation(_inProgress
+    var valColor = _inProgress
         ? CupertinoColors.lightBackgroundGray
-        : CupertinoColors.activeBlue);
+        : CupertinoColors.activeBlue;
+    var val = progress;
 
-    var val = _inProgress ? null : progress;
+    print(
+        'bgColor is: ${bgColor.red.toString() + ' ' + bgColor.green.toString() + ' ' + bgColor.blue.toString() + ' ' + bgColor.opacity.toString()}');
+    print(
+        'valColor is: ${valColor.red.toString() + ' ' + valColor.green.toString() + ' ' + valColor.blue.toString() + ' ' + valColor.opacity.toString()}');
+    print('val is ${val}');
+
     return AspectRatio(
       aspectRatio: 1.0,
       child: TweenAnimationBuilder<double>(
@@ -170,7 +179,7 @@ class FancyButton extends StatelessWidget {
         builder: (context, progress, child) {
           return CircularProgressIndicator(
             backgroundColor: bgColor,
-            valueColor: valColor,
+            valueColor: AlwaysStoppedAnimation(valColor),
             strokeWidth: 2.0,
             value: val,
           );
@@ -187,12 +196,9 @@ class FancyButton extends StatelessWidget {
         curve: Curves.ease,
         width: 150,
         decoration: _inProgress
-            ? ShapeDecoration(
-                shape: const CircleBorder(),
-                color: Colors.white.withOpacity(0.0))
+            ? ShapeDecoration(shape: const CircleBorder(), color: Colors.purple)
             : const ShapeDecoration(
-                shape: StadiumBorder(),
-                color: CupertinoColors.lightBackgroundGray),
+                shape: StadiumBorder(), color: CupertinoColors.activeOrange),
         child: child);
   }
 

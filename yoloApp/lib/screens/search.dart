@@ -51,14 +51,15 @@ class _SearchFormState extends State<SearchForm> {
     );
     if (response.statusCode == 200) {
       // We could move this to a background thread to not block the main thread, to avoid jank
-      // return compute(parseResults, response.body);
-      return parseResults(response.body);
+      return compute(parseResults, response.body);
+      //return parseResults(response.body);
     }
     throw Exception('oh noes');
   }
 
   Future<void> getData() async {
     try {
+      _buttonController.status = Status.inProgress;
       var apiResults = await _searchChanged();
       setState(() {
         results = apiResults;
@@ -114,13 +115,20 @@ class _SearchFormState extends State<SearchForm> {
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 20)),
                       Padding(padding: EdgeInsets.all(20)),
-                      FancyButton(
-                          text: 'Search',
-                          progress: _buttonController.progress,
-                          status: _buttonController.status,
-                          onStart: _buttonController.onStart,
-                          onCancel: _buttonController.onCancel,
-                          onOpenResult: _buttonController.onOpenResult),
+                      SizedBox(
+                          width: 96.0,
+                          child: AnimatedBuilder(
+                              animation: _buttonController,
+                              builder: (context, child) {
+                                return FancyButton(
+                                    text: 'Search',
+                                    progress: _buttonController.progress,
+                                    status: _buttonController.status,
+                                    onStart: _buttonController.onStart,
+                                    onCancel: _buttonController.onCancel,
+                                    onOpenResult:
+                                        _buttonController.onOpenResult);
+                              })),
                       if (_resultState?.isNotEmpty ?? false)
                         Stack(
                           children: [
