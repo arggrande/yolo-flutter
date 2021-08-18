@@ -38,9 +38,10 @@ If you're using a physical device:
 
 ## Workshop Steps!
 
-1. Hello world! - A basic flutter app with some things that need fixing. Run `git checkout da38d09` to go to/back to this commit.
-2. Fix some tests - Lets delve into testing with flutter and make sure our tests are working correctly. Run `git checkout 11e95bd` to go to/back to this commit.
-3. Add our dependencies - We need to add a HTTP client and a dotenv library to make our things work! Run `git checkout 007021b` to go to/back to this commit.
+1. `git checkout da38d09`: Hello world! - A basic flutter app with some things that need fixing.
+2. `git checkout 11e95bd`: Fix some tests - Lets delve into testing with flutter and make sure our tests are working correctly.
+3. `git checkout 007021b`: Add our dependencies - We need to add a HTTP client and a dotenv library to make our things work!
+4. `git checkout 30cc4d8`: Set up our Search Screen and request something from the tracker.gg API.
 
 ---
 
