@@ -58,6 +58,7 @@ Alternatively, you can see [here](https://github.com/flutter/flutter/issues/4690
 2. `git checkout 11e95bd`: Fix some tests - Lets delve into testing with flutter and make sure our tests are working correctly.
 3. `git checkout 007021b`: Add our dependencies - We need to add a HTTP client and a dotenv library to make our things work!
 4. `git checkout 30cc4d8`: Set up our Search Screen and request something from the tracker.gg API.
+5. `git checkout 8f3f3ee`: Make our nav experience a bit more coherent.
 
 ---
 
