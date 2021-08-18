@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:yoloapp/components/fancyButton.dart';
 import 'package:yoloapp/models/trackerApiResponse.dart';
+import 'package:yoloapp/screens/searchResults.dart';
 
 class Search extends StatelessWidget {
   Search({Key? key}) : super(key: key);
+
+  static const String routeName = '/';
 
   @override
   Widget build(BuildContext context) {
@@ -27,24 +30,11 @@ class SearchForm extends StatefulWidget {
 
 class _SearchFormState extends State<SearchForm> {
   String query = '';
-  Status _searchStatus = Status.stopped;
-
-  Status get searchStatus => _searchStatus;
-  set searchStatus(Status value) {
-    _searchStatus = value;
-  }
 
   late List<TrackerApiResponse>? _resultState = [];
   List<TrackerApiResponse>? get results => _resultState;
   set results(List<TrackerApiResponse>? value) {
     _resultState = value;
-  }
-
-  double _searchProgress = 0.0;
-  double get searchProgress => _searchProgress;
-
-  set searchProgress(double value) {
-    _searchProgress = value;
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -60,53 +50,31 @@ class _SearchFormState extends State<SearchForm> {
       },
     );
     if (response.statusCode == 200) {
-      // Move this to a background thread to not block the main thread, to avoid jank
-      //return compute(parseResults, response.body);
-      return parseResults(response.body);
+      // Use `compute` to not block the UI thread
+      return compute(parseResults, response.body);
     }
     throw Exception('oh noes');
   }
 
   Future<void> getData() async {
     try {
-      setState(() {
-        searchStatus = Status.inProgress;
-        searchProgress = 0.25;
-      });
-      setState(() {
-        searchProgress = 0.45;
-      });
-
       var apiResults = await _searchChanged();
       setState(() {
         results = apiResults;
-        results?.forEach((element) {
-          print(element.platformUserHandle);
-        });
-        searchProgress = 0.8;
       });
-      setState(() {
-        searchProgress = 1.0;
-        searchStatus = Status.finished;
-      });
-    } on Exception {
-      setState(() {
-        searchStatus = Status.error;
-        searchProgress = 0.0;
-      });
+    } on Exception catch (e) {
+      print(e);
     }
   }
 
   void onCancel() {
     setState(() {
-      searchStatus = Status.stopped;
+      _buttonController.status = Status.stopped;
     });
   }
 
   void onOpen() {
-    setState(() {
-      searchStatus = Status.stopped;
-    });
+    Navigator.pushNamed(context, SearchResults.routeName, arguments: results);
   }
 
   @override
@@ -114,11 +82,7 @@ class _SearchFormState extends State<SearchForm> {
     super.initState();
 
     _buttonController = new FancyController(
-        progress: searchProgress,
-        status: searchStatus,
-        onStart: getData,
-        onCancel: onCancel,
-        onOpenResult: onOpen);
+        onStart: getData, onCancel: onCancel, onOpenResult: onOpen);
   }
 
   @override
@@ -150,9 +114,9 @@ class _SearchFormState extends State<SearchForm> {
                           style: TextStyle(fontSize: 20)),
                       Padding(padding: EdgeInsets.all(20)),
                       FancyButton(
-                          progress: searchProgress,
                           text: 'Search',
-                          status: searchStatus,
+                          progress: _buttonController.progress,
+                          status: _buttonController.status,
                           onStart: _buttonController.onStart,
                           onCancel: _buttonController.onCancel,
                           onOpenResult: _buttonController.onOpenResult),

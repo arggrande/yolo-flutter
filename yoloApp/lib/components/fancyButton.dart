@@ -15,7 +15,7 @@ abstract class FancyButtonController implements ChangeNotifier {
 class FancyController extends FancyButtonController with ChangeNotifier {
   FancyController(
       {Status status = Status.stopped,
-      required double progress,
+      double progress = 0.0,
       required VoidCallback onOpenResult,
       required VoidCallback onStart,
       required VoidCallback onCancel})
@@ -25,11 +25,14 @@ class FancyController extends FancyButtonController with ChangeNotifier {
         _onStart = onStart,
         _onCancel = onCancel;
 
-  Status _status;
+  Status _status = Status.stopped;
   @override
   Status get status => _status;
+  set status(Status value) {
+    _status = value;
+  }
 
-  double _progress;
+  double _progress = 0.0;
   @override
   double get progress => _progress;
 
@@ -37,24 +40,28 @@ class FancyController extends FancyButtonController with ChangeNotifier {
   final VoidCallback _onStart;
   final VoidCallback _onCancel;
 
-  bool _isStarted = false;
+  /// Update the progress value and wait for a given duration to simulate awesome downloads
+  Future<void> TickTock(double progress, int durationInSeconds) async {
+    await Future<void>.delayed(Duration(seconds: durationInSeconds));
+    _progress = progress;
+    notifyListeners();
+  }
 
   @override
-  void onStart() {
-    notifyListeners();
-
-    if (status == Status.stopped && !_isStarted) {
-      _isStarted = true;
+  Future<void> onStart() async {
+    if (_status == Status.stopped) {
+      _status = Status.inProgress;
+      await TickTock(0.5, 1);
 
       _onStart();
-      notifyListeners();
+      _status = Status.finished;
+      await TickTock(1, 1);
     }
   }
 
   @override
   void onCancel() {
     _progress = 0;
-    _isStarted = false;
     _status = Status.stopped;
     _onCancel();
     notifyListeners();
@@ -62,7 +69,7 @@ class FancyController extends FancyButtonController with ChangeNotifier {
 
   @override
   void onOpenResult() {
-    if (status == Status.finished) {
+    if (_status == Status.finished) {
       _onOpenResult();
     }
   }
@@ -74,7 +81,7 @@ class FancyButton extends StatelessWidget {
       {Key? key,
       required this.status,
       this.transitionDuration = const Duration(milliseconds: 500),
-      this.progress = 0.0,
+      required this.progress,
       required this.onStart,
       required this.onCancel,
       required this.onOpenResult,
@@ -143,6 +150,14 @@ class FancyButton extends StatelessWidget {
   }
 
   Widget _buildProgressIndicator() {
+    var bgColor = _inProgress
+        ? CupertinoColors.lightBackgroundGray
+        : Colors.white.withOpacity(0.0);
+    var valColor = AlwaysStoppedAnimation(_inProgress
+        ? CupertinoColors.lightBackgroundGray
+        : CupertinoColors.activeBlue);
+
+    var val = _inProgress ? null : progress;
     return AspectRatio(
       aspectRatio: 1.0,
       child: TweenAnimationBuilder<double>(
@@ -150,14 +165,10 @@ class FancyButton extends StatelessWidget {
         duration: const Duration(milliseconds: 200),
         builder: (context, progress, child) {
           return CircularProgressIndicator(
-            backgroundColor: _inProgress
-                ? CupertinoColors.lightBackgroundGray
-                : Colors.white.withOpacity(0.0),
-            valueColor: AlwaysStoppedAnimation(_inProgress
-                ? CupertinoColors.lightBackgroundGray
-                : CupertinoColors.activeBlue),
+            backgroundColor: bgColor,
+            valueColor: valColor,
             strokeWidth: 2.0,
-            value: progress,
+            value: val,
           );
         },
       ),
@@ -168,7 +179,6 @@ class FancyButton extends StatelessWidget {
     required Widget child,
   }) {
     return AnimatedContainer(
-        margin: EdgeInsets.all(20),
         duration: transitionDuration,
         curve: Curves.ease,
         width: 150,

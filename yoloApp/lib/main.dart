@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:yoloapp/screens/search.dart';
-import 'package:yoloapp/screens/searchResults.dart';
+import 'package:yoloapp/navigation.dart';
 
 Future main() async {
   // Load our core .env file
@@ -15,12 +14,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'The YOLO Flutter Workshop™',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        routes: {
-          '/': (context) => Search(),
-        });
+      title: 'The YOLO Flutter Workshop™',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      onGenerateRoute: handleRoutes,
+      initialRoute: '/',
+    );
   }
 }
