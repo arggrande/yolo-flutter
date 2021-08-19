@@ -59,7 +59,7 @@ Alternatively, you can see [here](https://github.com/flutter/flutter/issues/4690
 3. `git checkout 007021b`: Add our dependencies - We need to add a HTTP client and a dotenv library to make our things work!
 4. `git checkout 30cc4d8`: Set up our Search Screen and request something from the tracker.gg API.
 5. `git checkout 8f3f3ee`: Make our nav experience a bit more coherent.
-6. `git checkout febed85`: Add our (completely unnecessary lol) search results page!
+6. `git checkout febed85`: Add our (completely unnecessary lol) separate search results page!
 7. `git checkout 1a2c0da`: Rework our networking stuff to use a dedicated HTTP client.
 8. `git checkout faf91f0`: Add a details page with a collapsible panel!
 
