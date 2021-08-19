@@ -68,4 +68,10 @@ Alternatively, you can see [here](https://github.com/flutter/flutter/issues/4690
 
    - I'm pretty sure its because I changed my `FancyButton`'s ctor arguments to _not_ use the state variables I'd set up on the `search.dart` form. I was trying to keep everything within `FancyButton`, nice and neatly contained. More fool me.
 
+## TODO
+
+- Rename the current linux script to macos because only macos has Brew lmao
+- Change my commit hashes to tags because theyre nicer than commits (thanks vats!)
+- Do a linux setup script
+
 <sup>^ :: whispers :: I did say it was a YOLO workshop.
