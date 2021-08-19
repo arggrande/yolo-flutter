@@ -1,12 +1,10 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:yoloapp/components/fancyButton.dart';
 import 'package:yoloapp/models/trackerApiResponse.dart';
 import 'package:yoloapp/screens/searchResults.dart';
+import 'package:yoloapp/util/trackerApiClient.dart';
 
 class Search extends StatelessWidget {
   Search({Key? key}) : super(key: key);
@@ -30,6 +28,7 @@ class SearchForm extends StatefulWidget {
 
 class _SearchFormState extends State<SearchForm> {
   String query = '';
+  final TrackerApiClient _client = new TrackerApiClient();
 
   late List<TrackerApiResponse>? _resultState = [];
   List<TrackerApiResponse>? get results => _resultState;
@@ -40,25 +39,9 @@ class _SearchFormState extends State<SearchForm> {
   final _formKey = GlobalKey<FormState>();
   late final FancyController _buttonController;
 
-  Future<List<TrackerApiResponse>?> _searchChanged() async {
-    var searchApiUri = dotenv.get('SEARCH_API');
-    var response = await http.get(
-      Uri.parse(searchApiUri + query),
-      headers: {
-        'TRN-Api-Key': dotenv.get('API_KEY'),
-        'Accept': '*/*',
-      },
-    );
-    if (response.statusCode == 200) {
-      // Use `compute` to not block the UI thread
-      return compute(parseResults, response.body);
-    }
-    throw Exception('oh noes');
-  }
-
   Future<void> getData() async {
     try {
-      var apiResults = await _searchChanged();
+      var apiResults = await _client.search(query);
       setState(() {
         results = apiResults;
       });
@@ -135,14 +118,6 @@ class _SearchFormState extends State<SearchForm> {
                 )
               ]))
     ]);
-  }
-
-  List<TrackerApiResponse> parseResults(String responseBody) {
-    final parsed = jsonDecode(responseBody)['data'];
-
-    return parsed
-        .map<TrackerApiResponse>((json) => TrackerApiResponse.fromJson(json))
-        .toList();
   }
 
   void textChanged(String value) {

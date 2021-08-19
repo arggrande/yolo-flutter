@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class TrackerApiResponse {
   final int platformId;
   final String platformSlug;
@@ -30,18 +28,5 @@ class TrackerApiResponse {
         avatarUrl: json['avatarUrl'],
         status: json['status'],
         additionalParameters: json['additionalParameters']);
-  }
-}
-
-class TrackerApiSearchResponse {
-  final List<TrackerApiResponse> data;
-
-  TrackerApiSearchResponse({required this.data});
-
-  factory TrackerApiSearchResponse.fromJson(String body) {
-    final parsesdResponse = jsonDecode(body).cast<Map<String, dynamic>>();
-
-    return parsesdResponse
-        .map<TrackerApiResponse>((json) => TrackerApiResponse.fromJson(json));
   }
 }
