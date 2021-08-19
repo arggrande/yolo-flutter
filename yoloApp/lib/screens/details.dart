@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:yoloapp/models/trackerApiResponse.dart';
 import 'package:yoloapp/models/userStatsResponse.dart';
 import 'package:yoloapp/util/trackerApiClient.dart';
 
