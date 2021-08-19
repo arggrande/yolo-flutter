@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:yoloapp/models/trackerApiResponse.dart';
+import 'package:yoloapp/models/userStatsResponse.dart';
 
 class TrackerApiClient extends http.BaseClient {
   late final http.Client _client;
@@ -43,11 +44,11 @@ class TrackerApiClient extends http.BaseClient {
   }
 
   /// Get a single user's details from the Tracker.gg API
-  Future<TrackerApiResponse> getUser<T>(String userId, String platform) async {
+  Future<UserStatsResponse> getUser<T>(String userId, String platform) async {
     // There is a sprintf package that does this type of string formatting a bit nicer
     // but /shrug for now.
-    _userApi.replaceAll('{platform}', platform);
-    _userApi.replaceAll('{platformUserIdentifier}', userId);
+    _userApi = _userApi.replaceAll('{platform}', platform);
+    _userApi = _userApi.replaceAll('{platformUserIdentifier}', userId);
 
     var uri = Uri.parse(_userApi);
     var response = await get(uri, headers: _getAuthHeaders());
@@ -68,8 +69,8 @@ class TrackerApiClient extends http.BaseClient {
         .toList();
   }
 
-  TrackerApiResponse _parseApiResult<T>(String responseBody) {
+  UserStatsResponse _parseApiResult<T>(String responseBody) {
     final parsed = jsonDecode(responseBody)['data'];
-    return TrackerApiResponse.fromJson(parsed);
+    return UserStatsResponse.fromJson(parsed);
   }
 }

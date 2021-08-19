@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:yoloapp/components/fancyButton.dart';
 import 'package:yoloapp/models/trackerApiResponse.dart';
 
+import 'details.dart';
+
 class SearchResults extends StatelessWidget {
   SearchResults({Key? key, required this.results});
   final List<TrackerApiResponse> results;
@@ -28,7 +30,7 @@ class SearchResults extends StatelessWidget {
     final controller = FancyController(
         status: Status.finished,
         onOpenResult: () {
-          onOpenResult(index);
+          onOpenResult(context, index);
         },
         onStart: onStart,
         onCancel: onCancel);
@@ -61,8 +63,11 @@ class SearchResults extends StatelessWidget {
     );
   }
 
-  void onOpenResult(int index) {
-    print('Selected user: ${results[index].platformUserHandle}');
+  void onOpenResult(BuildContext context, int index) {
+    final user = results[index];
+    Navigator.pushNamed(context, Details.routeName,
+        arguments: DetailsArguments(
+            userId: user.platformUserId, platform: user.platformSlug));
   }
 
   Future<void> onStart() async {}

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/trackerApiResponse.dart';
+import 'screens/details.dart';
 import 'screens/search.dart';
 import 'screens/searchResults.dart';
 
@@ -18,6 +19,11 @@ Route<dynamic>? handleRoutes(RouteSettings settings) {
       final args = settings.arguments as List<TrackerApiResponse>;
       return MaterialPageRoute(builder: (context) {
         return SearchResults(results: args);
+      });
+    case Details.routeName:
+      final args = settings.arguments as DetailsArguments;
+      return MaterialPageRoute(builder: (context) {
+        return Details(details: args);
       });
     default:
       {
