@@ -61,6 +61,7 @@ Alternatively, you can see [here](https://github.com/flutter/flutter/issues/4690
 5. `git checkout 8f3f3ee`: Make our nav experience a bit more coherent.
 6. `git checkout febed85`: Add our (completely unnecessary lol) search results page!
 7. `git checkout 1a2c0da`: Rework our networking stuff to use a dedicated HTTP client.
+8. `git checkout faf91f0`: Add a details page with a collapsible panel!
 
 ---
 
