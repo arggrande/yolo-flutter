@@ -73,6 +73,7 @@ Alternatively, you can see [here](https://github.com/flutter/flutter/issues/4690
 
 ## TODO
 
+- Spin up a 'dart basics' file
 - Rename the current linux script to macos because only macos has Brew lmao
 - Change my commit hashes to tags because theyre nicer than commits (thanks vats!)
 - Do a linux setup script
