@@ -55,11 +55,17 @@ Alternatively, you can see [here](https://github.com/flutter/flutter/issues/4690
 ## Workshop Stages
 
 [Stage One](workshop/1.%20Fix%20Tests.md) - We're fixing some tests.
+
 [Stage Two](workshop/2.%20Add%20Dependencies.md) - We're adding some dependencies.
+
 [Stage Three](workshop/3.%20Search%20Screen%20and%20Network%20Request.md) - We're Searching and Requesting.
+
 [Stage Four](workshop/4.%20Better%20Nav%20Experience.md) - We're creating a better Navigation experience!
+
 [Stage Five](workshop/5.%20Search%20Results%20Page.md) - We're creating a Search Results page!
+
 [Stage Six](workshop/6.%20A%20Proper%20HTTP%20Client.md) - We're creating a nice HTTP Client!
+
 [Stage Seven](workshop/7.%20A%20Details%20Page%20with%20Collapsible%20Panel.md) - We're creating a Details page with fancy Collapsible Panels!
 
 ### Commits
